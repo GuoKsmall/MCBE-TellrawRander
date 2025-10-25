@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCBE Text Impact - Web UI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>MCBE Text Impact</h1>
+        <!-- Top mode switch: two rounded square cards -->
+        <div id="mode-switch" class="mode-switch" role="tablist" aria-label="Render mode switch">
+            <button class="mode-card" data-mode="text" role="tab" aria-selected="true">Plain Text</button>
+            <button class="mode-card" data-mode="tellraw" role="tab" aria-selected="false">Tellraw JSON</button>
+        </div>
+        <div id="error-message" class="error" style="display: none;"></div>
+        <div class="inputs">
+            <div class="panel">
+                <h2>Plain Text</h2>
+                <form id="text-form" class="render-form">
+                    <input type="hidden" name="mode" value="text">
+                    <textarea name="content" id="text-input" placeholder="Enter plain text to render, § formatting supported" rows="12" required></textarea>
+                    <div class="panel-controls">
+                        <button type="submit">Render Text</button>
+                        <button type="reset">Clear</button>
+                    </div>
+                    <div class="panel-preview">
+                        <h3>Preview</h3>
+                        <div class="opacity-control">
+                            <label for="text-opacity">Background Opacity</label>
+                            <input id="text-opacity" class="opacity-range" type="range" min="0" max="100" step="1" value="100" aria-label="Text preview opacity">
+                            <span class="opacity-value">100%</span>
+                        </div>
+                        <div class="transform-control">
+                            <label for="text-offset-x">Horizontal Offset</label>
+                            <input id="text-offset-x" class="offset-range" type="range" min="-100" max="100" step="1" value="0" data-axis="x">
+                            <span class="offset-x-value">0px</span>
+                        </div>
+                        <div class="transform-control">
+                            <label for="text-offset-y">Vertical Offset</label>
+                            <input id="text-offset-y" class="offset-range" type="range" min="-100" max="100" step="1" value="0" data-axis="y">
+                            <span class="offset-y-value">0px</span>
+                        </div>
+                        <div class="transform-control">
+                            <label for="text-scale">Image Scale</label>
+                            <input id="text-scale" class="scale-range" type="range" min="10" max="200" step="1" value="100">
+                            <span class="scale-value">100%</span>
+                        </div>
+                        <div id="text-preview" class="preview-area">
+                            <div class="placeholder">(Text render result)</div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="panel">
+                <h2>Tellraw JSON</h2>
+                <form id="json-form" class="render-form">
+                    <input type="hidden" name="mode" value="tellraw">
+                    <textarea name="content" id="json-input" placeholder='Enter Tellraw JSON, e.g. {"rawtext":[{"text":"Hello"}]}' rows="12" required></textarea>
+                    <div class="panel-controls">
+                        <button type="submit">Render JSON</button>
+                        <button type="reset">Clear</button>
+                    </div>
+                    <div class="panel-preview">
+                        <h3>Preview</h3>
+                        <div class="opacity-control">
+                            <label for="json-opacity">Background Opacity</label>
+                            <input id="json-opacity" class="opacity-range" type="range" min="0" max="100" step="1" value="100" aria-label="JSON preview opacity">
+                            <span class="opacity-value">100%</span>
+                        </div>
+                        <div class="transform-control">
+                            <label for="json-offset-x">Horizontal Offset</label>
+                            <input id="json-offset-x" class="offset-range" type="range" min="-100" max="100" step="1" value="0" data-axis="x">
+                            <span class="offset-x-value">0px</span>
+                        </div>
+                        <div class="transform-control">
+                            <label for="json-offset-y">Vertical Offset</label>
+                            <input id="json-offset-y" class="offset-range" type="range" min="-100" max="100" step="1" value="0" data-axis="y">
+                            <span class="offset-y-value">0px</span>
+                        </div>
+                        <div class="transform-control">
+                            <label for="json-scale">Image Scale</label>
+                            <input id="json-scale" class="scale-range" type="range" min="10" max="200" step="1" value="100">
+                            <span class="scale-value">100%</span>
+                        </div>
+                        <div id="json-preview" class="preview-area">
+                            <div class="placeholder">(JSON render result)</div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- History panel (bottom-left, collapsible) -->
+    <div id="history-panel" class="history-panel" aria-live="polite">
+        <div class="history-title">
+            <span>History</span>
+            <button id="history-toggle" class="history-toggle" aria-expanded="true" aria-label="Collapse history">▾</button>
+        </div>
+        <ul id="history-list" class="history-list"></ul>
+        <div id="history-empty" class="history-empty">No history records</div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
